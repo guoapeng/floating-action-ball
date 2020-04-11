@@ -1,4 +1,49 @@
 
+function isFn(value) {
+  const type = Object.prototype.toString.call(value);
+  return type === '[object Function]';
+}
+function isNode(value) {
+  return value !== undefined && (value.nodeType === 1 || value.nodeType === 9);
+}
+
+function EventManage() {
+    this.handlers = [];
+  }
+    
+EventManage.prototype = {
+    add: function (target, eventName, handler) {
+    
+          if (!target && !eventName && !handler) {
+            throw new Error('缺少参数');
+          }
+          if (!isFn(handler)) {
+            throw new TypeError('Third argument must be a Function');
+          }
+          
+          if (isNode(target)) {
+            target.addEventListener(eventName, handler)
+            destroy = function(){
+               target.removeEventListener(eventName, handler)
+            }
+            this.handlers.push({target:target, eventName: eventName, handler: handler, destroy: destroy})
+            return
+          }
+          throw new TypeError('First argument must be a String, HTMLElement, HTMLCollection, or NodeList');
+
+    },
+    remove: function (target, eventName, handler) {
+      for(i in this.handlers) {
+         if(target.compareDocumentPosition(this.handlers[i].target)==0 
+            && this.handlers[i].eventName ==eventName 
+            && this.handlers[i].handler.toString() == handler.toString()) {
+            this.handlers[i].destroy()
+            this.handlers.splice(i, 1)
+         }
+      }
+    }
+}
+
 function SuspensionBall(drag, dragLink) {
    this.dragLink = dragLink
   // 判断是否支持触摸事件
@@ -15,15 +60,12 @@ function SuspensionBall(drag, dragLink) {
   this.drag = drag
   this.drag.style.position = 'absolute'
   this.drag.style.cursor = 'move'
-  // 标记是拖曳还是点击
-  var isClick = true
-  var disX, disY, left, top, starX, starY
+  this.eventManage = new EventManage()
 
 }
 
 SuspensionBall.prototype.init = function() {
-  this.drag.addEventListener(this.startEvt, this.startMoveProxy)
-
+    this.eventManage.add(this.drag, this.startEvt, this.startMove.bind(this))
 }
 
 SuspensionBall.prototype.startMove = function(e) {
@@ -37,10 +79,11 @@ SuspensionBall.prototype.startMove = function(e) {
     this.starY = e.touches ? e.touches[0].clientY : e.clientY
     // 手指相对于拖动元素左上角的位置
     this.disX = this.starX - this.drag.offsetLeft
-    this.disY = suspensionBall.starY - this.drag.offsetTop
+    this.disY = this.starY - this.drag.offsetTop
     // 按下之后才监听后续事件
-    document.addEventListener(this.moveEvt, this.moveFunProxy)
-    document.addEventListener(this.endEvt, this.endFunProxy)
+    this.eventManage.add(document, this.moveEvt, this.moveFun.bind(this))
+    this.eventManage.add(document, this.endEvt, this.endFun.bind(this))
+    
 }
 
 SuspensionBall.prototype.moveFun = function(e) {
@@ -67,30 +110,19 @@ SuspensionBall.prototype.moveFun = function(e) {
     } else if (this.top > document.documentElement.clientHeight - this.drag.offsetHeight) {
       this.top = document.documentElement.clientHeight - this.drag.offsetHeight
     }
-    this.drag.style.left = this.left + 'px'
-    this.drag.style.top = this.top + 'px'
+    this.drag.style.left = (this.left/document.documentElement.clientWidth)*100 + '%'
+    this.drag.style.top = (this.top/document.documentElement.clientHeight) *100 + '%'
 }
 
 SuspensionBall.prototype.endFun = function(e) {
-    document.removeEventListener(this.moveEvt, this.moveFunProxy)
-    document.removeEventListener(this.endEvt, this.endFunProxy)
+    
+    this.eventManage.remove(document, this.moveEvt, this.moveFun.bind(this))
+    this.eventManage.remove(document, this.endEvt, this.endFun.bind(this))
+    
     if (this.isClick) { // 点击
       window.location.href = this.dragLink
     }
 }
 
-SuspensionBall.prototype.startMoveProxy = function(e) {
-    suspensionBall.startMove(e)
-}
-
-SuspensionBall.prototype.moveFunProxy = function(e) {
-    suspensionBall.moveFun(e)
-  }
-
- SuspensionBall.prototype.endFunProxy = function(e) {
-    suspensionBall.endFun(e)
-  }
   
-  // suspension-ball.js
- var suspensionBall = new SuspensionBall(document.getElementById('ballId'))
- suspensionBall.init()
+ 

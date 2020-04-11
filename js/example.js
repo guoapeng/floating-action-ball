@@ -1,6 +1,10 @@
-//var ball = new SuspensionBall(document.getElementById('ballId'))
- //   ball.init();
+
+  // suspension-ball.js
+  
+ var eventManage = new EventManage()
  
- //suspensionBall('ballId', 'https://www.baidu.com')
+ var suspensionBall = new SuspensionBall(document.getElementById('ballId'), "www.baidu.com")
+ suspensionBall.init()
  
-// ball.init();
+ var suspensionBall2 = new SuspensionBall(document.getElementById('ballId2'), "www.baidu.com")
+  suspensionBall2.init()
