@@ -8,13 +8,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>suspension-ball</title>
+  <link href="css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/suspension-ball.css">
 </head>
 <body>
-  <div id="ballId" class="suspension-ball" style="top: 30%; left: 30%;">ball2</div>
+  <div id="ballId1" class="suspension-ball-wrap suspension-ball-control" style="top: 8%; left: 6%;">ball1</div>
+  <div id="ballId2" class="suspension-ball-wrap suspension-ball-control" style="top: 20%; left: 6%;">ball2</div>
   
-  <div id="ballId2" class="suspension-ball" style="top: 90%; left: 60%;">ball2</div>
+  <div id ="ballId3" class="suspension-ball-wrap" style="top: 60%; left: 85%;">
+       <div id="ballId3Panel" class="suspension-ball-panel" style="display: flex; flex-direction: column-reverse">
+          <div class="suspension-ball-content">
+            <span>
+                <i class="fa fa-weibo" aria-hidden="true"> </i>
+            </span>
+          </div>
+          <div class="suspension-ball-content">
+            <span>
+                <i class="fa fa-wechat" aria-hidden="true"> </i>
+            </span>
+          </div>
+          <div class="suspension-ball-content">
+            <span>
+                <i class="fa fa-qq" aria-hidden="true"> </i>
+            </span>
+          </div>
+          <div class="suspension-ball-content">
+            <span>
+                <i class="fa fa-home" aria-hidden="true"> </i>
+            </span>
+          </div>
+        </div>
+        <div id="ball-main" class="suspension-ball-control" onclick="suspensionBallToggle('#ballId3Panel')" >
+            <span>
+                <i class="fa fa-plus" aria-hidden="true"> </i>
+            </span>
+        </div>
+  <div>
 </body>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 <script src="js/suspension-ball.js"></script>
 <script src="js/example.js"></script>
 </html>

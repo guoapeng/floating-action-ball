@@ -1,18 +1,45 @@
-.suspension-ball {
-      background: rgb(19, 167, 19);
-      color: white;
-      width: 50px;
-      text-align: center;
-      height: 50px;
-      line-height: 50px;
-      border-radius: 50%;
-      box-shadow: 5px 5px 40px rgba(0, 0, 0, 0.5);
-      /* 过渡效果在IE下展示效果不友好 */
-      transition: all 0.08s;
-      user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      -webkit-user-select: none;
-      
-      transform: translate3d(-50%, -50%, 0);
+
+
+.suspension-ball-wrap{width:10%;height:30%;}
+
+.suspension-ball-panel{position:absolute;bottom:50px;overflow: hidden;text-align:center;line-height:30px}
+
+.suspension-ball-control {
+    background:rgb(19, 167, 19);
+    color:#fff;
+    width:50px;
+    height:50px;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 50%;
+    position:absolute;
+    bottom:0;
+    text-align:center;
+    display: flex;
+    align-items: center; /*定义body的元素垂直居中*/
+    justify-content: center; /*定义body的里的元素水平居中*/
+    line-height:30px;
+    box-shadow: 5px 5px 40px rgba(0, 0, 0, 0.5);
+    /* 过渡效果在IE下展示效果不友好 */
+    transition: all 0.08s;
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
     }
+.suspension-ball-content{
+    width:50px;
+    height:50px;
+    background:rgb(19, 167, 19);
+    border-radius: 50%;
+    position:relative;
+    bottom:0;
+    text-align:center;
+    display: flex;
+    align-items: center; /*定义body的元素垂直居中*/
+    justify-content: center; /*定义body的里的元素水平居中*/
+    line-height:30px;
+    color:#fff
+    }
+
+    

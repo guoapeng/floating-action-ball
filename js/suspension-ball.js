@@ -73,7 +73,6 @@ SuspensionBall.prototype.startMove = function(e) {
     e.preventDefault()
     // 兼容IE浏览器
     var e = e || window.event
-    this.isClick = true
     // 手指按下时的坐标
     this.starX = e.touches ? e.touches[0].clientX : e.clientX
     this.starY = e.touches ? e.touches[0].clientY : e.clientY
@@ -90,12 +89,7 @@ SuspensionBall.prototype.moveFun = function(e) {
     // 兼容IE浏览器
     var e = e || window.event
     // 防止触摸不灵敏，拖动距离大于20像素就认为不是点击，小于20就认为是点击跳转
-    if (
-      Math.abs(this.starX - (e.touches ? e.touches[0].clientX : e.clientX)) > 20 ||
-      Math.abs(this.starY - (e.touches ? e.touches[0].clientY : e.clientY)) > 20
-    ) {
-      this.isClick = false
-    }
+    
     this.left = (e.touches ? e.touches[0].clientX : e.clientX) - this.disX
     this.top = (e.touches ? e.touches[0].clientY : e.clientY) - this.disY
     // 限制拖拽的X范围，不能拖出屏幕
@@ -115,13 +109,8 @@ SuspensionBall.prototype.moveFun = function(e) {
 }
 
 SuspensionBall.prototype.endFun = function(e) {
-    
     this.eventManage.remove(document, this.moveEvt, this.moveFun.bind(this))
     this.eventManage.remove(document, this.endEvt, this.endFun.bind(this))
-    
-    if (this.isClick) { // 点击
-      window.location.href = this.dragLink
-    }
 }
 
   
