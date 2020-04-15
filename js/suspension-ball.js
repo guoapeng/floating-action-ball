@@ -57,15 +57,20 @@ function SuspensionBall(drag, dragLink) {
     this.endEvt = 'mouseup'
   }
   // 获取元素
-  this.drag = drag
-  this.drag.style.position = 'absolute'
-  this.drag.style.cursor = 'move'
-  this.eventManage = new EventManage()
+    if(drag){
+        this.drag = drag
+        this.drag.style.position = 'absolute'
+        this.drag.style.cursor = 'move'
+        this.eventManage = new EventManage()
+    }
+
 
 }
 
 SuspensionBall.prototype.init = function() {
-    this.eventManage.add(this.drag, this.startEvt, this.startMove.bind(this))
+    if(this.drag){
+        this.eventManage.add(this.drag, this.startEvt, this.startMove.bind(this))
+    }
 }
 
 SuspensionBall.prototype.startMove = function(e) {
@@ -113,5 +118,11 @@ SuspensionBall.prototype.endFun = function(e) {
     this.eventManage.remove(document, this.endEvt, this.endFun.bind(this))
 }
 
-  
- 
+function suspensionBallToggle (panelId) {
+    var panel = document.getElementById(panelId);
+    if(panel.style.display !="none"){
+        panel.style.display = 'none';
+    } else {
+        panel.style.display = 'block';
+    }
+}
